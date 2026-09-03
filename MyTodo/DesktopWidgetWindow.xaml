@@ -1,0 +1,51 @@
+<Window x:Class="MyTodo.DesktopWidgetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:MyTodo"
+        Title="MyTodo 桌面小组件" Width="340" Height="500"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False" ShowActivated="False" Topmost="False"
+        WindowStartupLocation="Manual" Focusable="True"
+        FontFamily="Segoe UI Variable Text, Segoe UI, Microsoft YaHei UI" UseLayoutRounding="True"
+        PreviewMouseDown="Window_PreviewMouseDown">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" GlassFrameThickness="-1" CornerRadius="12"
+                      ResizeBorderThickness="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!-- 基础面板不透明；整体透明度由 Window.Opacity 控制 -->
+        <SolidColorBrush x:Key="Brush.Panel" Color="#F7FAF7"/>
+        <SolidColorBrush x:Key="Brush.Card" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Brush.Stroke" Color="#E3EAE4"/>
+    </Window.Resources>
+
+    <Border x:Name="RootBorder" CornerRadius="12" Background="{StaticResource Brush.Panel}"
+            BorderBrush="{StaticResource Brush.Stroke}" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="32" ShadowDepth="6" Opacity="0.10" Color="#1E3A2F"/>
+        </Border.Effect>
+
+        <Grid x:Name="RootGrid" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="34"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 头部：仅模式切换 -->
+            <Grid WindowChrome.IsHitTestVisibleInChrome="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <RadioButton x:Name="QuickTab" Content="随手记" GroupName="WidgetMode"
+                                 Style="{StaticResource ModeTab}" Checked="QuickTab_Checked"/>
+                    <RadioButton x:Name="DatedTab" Content="按日期" GroupName="WidgetMode"
+                                 Style="{StaticResource ModeTab}" Margin="4,0,0,0" Checked="DatedTab_Checked"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 任务区（与主面板共用） -->
+            <local:TaskListHost x:Name="WidgetHost" Grid.Row="1"/>
+        </Grid>
+    </Border>
+
+</Window>

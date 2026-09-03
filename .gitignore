@@ -1,0 +1,12 @@
+bin/
+obj/
+dist/
+publish/
+.dotnet-home/
+.dotnet/
+.nuget-data/
+.nuget-packages/
+.vs/
+*.user
+*.suo
+*.log
